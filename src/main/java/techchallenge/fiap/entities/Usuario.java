@@ -33,6 +33,14 @@ public class Usuario {
         this.ultimaAlteracao = ultimaAlteracao;
     }
 
+    public Usuario(String nome, String email, String login, String senha, LocalDate ultimaAlteracao) {
+        this.nome = nome;
+        this.email = email;
+        this.login = login;
+        this.senha = senha;
+        this.ultimaAlteracao = ultimaAlteracao;
+    }
+
     public Long getId() {
         return id;
     }
