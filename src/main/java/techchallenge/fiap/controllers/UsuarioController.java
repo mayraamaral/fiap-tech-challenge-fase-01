@@ -4,12 +4,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import techchallenge.fiap.dtos.UsuarioCreateDTO;
-import techchallenge.fiap.dtos.UsuarioResponseDTO;
-import techchallenge.fiap.dtos.UsuarioUpdateDTO;
+import techchallenge.fiap.dtos.*;
 import techchallenge.fiap.repositories.UsuarioRepository;
+import techchallenge.fiap.utils.exceptions.DadosIncorretosException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/usuario")
@@ -43,5 +44,29 @@ public class UsuarioController {
         usuario.ifPresent(u -> u.atualizarSeSenhaEstiverCorreta(updateDTO));
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/troca-de-senha/{id}")
+    @Transactional
+    public ResponseEntity atualizarSenha(@PathVariable Long id, @RequestBody @Valid UsuarioTrocaDeSenhaDTO trocaDeSenhaDTO) {
+        var usuario = usuarioRepository.findById(id);
+        usuario.ifPresent(u -> u.atualizarSenhaSeSenhaAtualEstiverCorreta(trocaDeSenhaDTO));
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> fazerLogin(@RequestBody @Valid UsuarioLoginDTO usuarioLoginDTO) {
+        var usuario = usuarioRepository.findByLogin(usuarioLoginDTO.getLogin())
+            .orElseThrow(() -> new DadosIncorretosException("Dados incorretos"));
+
+        if (!usuario.aSenhaEstaCorreta(usuarioLoginDTO.getSenha())) {
+            throw new DadosIncorretosException("Dados incorretos");
+        }
+
+        return ResponseEntity.ok(
+            new HashMap<>(Map.of("message", "Login realizado com sucesso"))
+        );
+
     }
 }
