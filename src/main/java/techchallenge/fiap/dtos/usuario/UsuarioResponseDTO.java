@@ -1,6 +1,7 @@
-package techchallenge.fiap.dtos;
+package techchallenge.fiap.dtos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import techchallenge.fiap.dtos.endereco.EnderecoResponseDTO;
 import techchallenge.fiap.entities.Endereco;
 import techchallenge.fiap.entities.Usuario;
 
@@ -15,7 +16,7 @@ public class UsuarioResponseDTO {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate ultimaAlteracao;
-    private Long idEndereco;
+    private EnderecoResponseDTO endereco;
 
     @Deprecated
     public UsuarioResponseDTO() {}
@@ -26,8 +27,8 @@ public class UsuarioResponseDTO {
         this.email = usuario.getEmail();
         this.login = usuario.getLogin();
         this.ultimaAlteracao = usuario.getUltimaAlteracao();
-        this.idEndereco = usuario.getEndereco().map(Endereco::getId)
-            .orElse(null);
+        this.endereco = usuario.getEndereco()
+            .map(EnderecoResponseDTO::new).orElse(null);
     }
 
     public Long getId() {
@@ -50,7 +51,7 @@ public class UsuarioResponseDTO {
         return ultimaAlteracao;
     }
 
-    public Long getIdEndereco() {
-        return idEndereco;
+    public EnderecoResponseDTO getEndereco() {
+        return endereco;
     }
 }

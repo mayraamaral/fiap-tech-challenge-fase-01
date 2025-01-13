@@ -1,8 +1,10 @@
-package techchallenge.fiap.dtos;
+package techchallenge.fiap.dtos.usuario;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import techchallenge.fiap.dtos.endereco.EnderecoCreateDTO;
 import techchallenge.fiap.entities.Usuario;
-import techchallenge.fiap.utils.PasswordEncoderProvider;
 
 import java.time.LocalDate;
 
@@ -20,6 +22,10 @@ public class UsuarioCreateDTO {
     @NotBlank
     private String senha;
 
+    @NotNull
+    @Valid
+    private EnderecoCreateDTO endereco;
+
     @Deprecated
     public UsuarioCreateDTO() {}
 
@@ -36,7 +42,8 @@ public class UsuarioCreateDTO {
             email,
             login,
             senha,
-            LocalDate.now()
+            LocalDate.now(),
+            endereco
         );
     }
 
@@ -54,5 +61,9 @@ public class UsuarioCreateDTO {
 
     public String getSenha() {
         return senha;
+    }
+
+    public EnderecoCreateDTO getEndereco() {
+        return endereco;
     }
 }
