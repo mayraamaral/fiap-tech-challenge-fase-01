@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS endereco (
     numero VARCHAR(10),
     complemento VARCHAR(255),
     bairro VARCHAR(255),
-    cidade VARCHAR(255) NOT NULL,
+    cidade VARCHAR(255),
     estado VARCHAR(100) NOT NULL,
     pais VARCHAR(100) NOT NULL,
     cep VARCHAR(20)
