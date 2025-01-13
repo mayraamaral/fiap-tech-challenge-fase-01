@@ -1,8 +1,9 @@
 package techchallenge.fiap.entities;
 
 import jakarta.persistence.*;
-import techchallenge.fiap.dtos.UsuarioTrocaDeSenhaDTO;
-import techchallenge.fiap.dtos.UsuarioUpdateDTO;
+import techchallenge.fiap.dtos.endereco.EnderecoCreateDTO;
+import techchallenge.fiap.dtos.usuario.UsuarioTrocaDeSenhaDTO;
+import techchallenge.fiap.dtos.usuario.UsuarioUpdateDTO;
 import techchallenge.fiap.utils.PasswordEncoderProvider;
 
 import java.time.LocalDate;
@@ -20,8 +21,8 @@ public class Usuario {
     private String senha;
     private LocalDate ultimaAlteracao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_endereco")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco", referencedColumnName = "id")
     private Endereco endereco;
 
     @Deprecated
@@ -36,19 +37,20 @@ public class Usuario {
         this.ultimaAlteracao = ultimaAlteracao;
     }
 
-    public Usuario(String nome, String email, String login, String senha, LocalDate ultimaAlteracao) {
+    public Usuario(String nome, String email, String login, String senha, LocalDate ultimaAlteracao, EnderecoCreateDTO enderecoDTO) {
         this.nome = nome;
         this.email = email;
         this.login = login;
         this.senha = PasswordEncoderProvider.encode(senha);
         this.ultimaAlteracao = ultimaAlteracao;
+        this.endereco = enderecoDTO.toEntity();
     }
 
     public boolean aSenhaEstaCorreta(String senha) {
         return PasswordEncoderProvider.matches(senha, this.senha);
     }
 
-    public void atualizarSeSenhaEstiverCorreta(UsuarioUpdateDTO usuarioUpdate) {
+    public void atualizarDadosSeSenhaEstiverCorreta(UsuarioUpdateDTO usuarioUpdate) {
         if(!this.aSenhaEstaCorreta(usuarioUpdate.getSenha())) return;
 
         this.nome = usuarioUpdate.getNome();
