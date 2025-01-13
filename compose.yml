@@ -5,14 +5,33 @@ services:
     image: postgres:latest
     container_name: postgres_container
     restart: always
-    environment:
-      POSTGRES_USER: mayra
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: tech_challenge
+    env_file:
+      - .env
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $POSTGRES_USER" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: openjdk:21-jdk-slim
+    container_name: spring_app
+    restart: always
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: ./mvnw spring-boot:run
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+       condition: service_healthy
 
 volumes:
   postgres_data:
