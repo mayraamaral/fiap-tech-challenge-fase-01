@@ -1,6 +1,12 @@
 package techchallenge.fiap.controllers;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +20,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioController {
+@Tag(name = "Usuário", description = "Operações relacionadas à entidade do usuário")
+public class UsuarioController implements IUsuarioController {
 
     private final UsuarioRepository usuarioRepository;
 
@@ -23,9 +30,13 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> listarTudo() {
-        List<UsuarioResponseDTO> list = usuarioRepository.findAll()
-            .stream().map(UsuarioResponseDTO::new).toList();
+    public ResponseEntity<Page<UsuarioResponseDTO>> listarTudo(@Parameter(hidden = true) Pageable pageable) {
+        if (!pageable.getSort().isSorted()) {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("id").ascending());
+        }
+
+        Page<UsuarioResponseDTO> list = usuarioRepository.findAll(pageable)
+            .map(UsuarioResponseDTO::new);
 
         return ResponseEntity.ok(list);
     }
