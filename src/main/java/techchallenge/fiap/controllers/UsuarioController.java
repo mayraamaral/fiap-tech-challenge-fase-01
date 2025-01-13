@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import techchallenge.fiap.dtos.*;
+import techchallenge.fiap.dtos.usuario.*;
 import techchallenge.fiap.repositories.UsuarioRepository;
 import techchallenge.fiap.utils.exceptions.DadosIncorretosException;
 
@@ -41,7 +41,7 @@ public class UsuarioController {
     @Transactional
     public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid UsuarioUpdateDTO updateDTO) {
         var usuario = usuarioRepository.findById(id);
-        usuario.ifPresent(u -> u.atualizarSeSenhaEstiverCorreta(updateDTO));
+        usuario.ifPresent(u -> u.atualizarDadosSeSenhaEstiverCorreta(updateDTO));
 
         return ResponseEntity.noContent().build();
     }
