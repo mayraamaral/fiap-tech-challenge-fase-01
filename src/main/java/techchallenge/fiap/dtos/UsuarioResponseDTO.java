@@ -11,6 +11,7 @@ public class UsuarioResponseDTO {
     private Long id;
     private String nome;
     private String email;
+    private String login;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate ultimaAlteracao;
@@ -23,6 +24,7 @@ public class UsuarioResponseDTO {
         this.id = usuario.getId();
         this.nome = usuario.getNome();
         this.email = usuario.getEmail();
+        this.login = usuario.getLogin();
         this.ultimaAlteracao = usuario.getUltimaAlteracao();
         this.idEndereco = usuario.getEndereco().map(Endereco::getId)
             .orElse(null);
@@ -38,6 +40,10 @@ public class UsuarioResponseDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getLogin() {
+        return login;
     }
 
     public LocalDate getUltimaAlteracao() {
