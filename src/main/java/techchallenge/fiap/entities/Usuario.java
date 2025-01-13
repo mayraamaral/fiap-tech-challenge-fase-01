@@ -1,6 +1,7 @@
 package techchallenge.fiap.entities;
 
 import jakarta.persistence.*;
+import techchallenge.fiap.dtos.UsuarioTrocaDeSenhaDTO;
 import techchallenge.fiap.dtos.UsuarioUpdateDTO;
 import techchallenge.fiap.utils.PasswordEncoderProvider;
 
@@ -39,7 +40,7 @@ public class Usuario {
         this.nome = nome;
         this.email = email;
         this.login = login;
-        this.senha = senha;
+        this.senha = PasswordEncoderProvider.encode(senha);
         this.ultimaAlteracao = ultimaAlteracao;
     }
 
@@ -53,6 +54,14 @@ public class Usuario {
         this.nome = usuarioUpdate.getNome();
         this.email = usuarioUpdate.getEmail();
         this.login = usuarioUpdate.getLogin();
+        this.ultimaAlteracao = LocalDate.now();
+    }
+
+    public void atualizarSenhaSeSenhaAtualEstiverCorreta(UsuarioTrocaDeSenhaDTO trocaDeSenhaDTO) {
+        if(!this.aSenhaEstaCorreta(trocaDeSenhaDTO.getSenhaAtual())) return;
+
+        this.senha = PasswordEncoderProvider.encode(trocaDeSenhaDTO.getNovaSenha());
+        this.ultimaAlteracao = LocalDate.now();
     }
 
     public Long getId() {

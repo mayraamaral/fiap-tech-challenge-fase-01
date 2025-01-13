@@ -35,7 +35,7 @@ public class UsuarioCreateDTO {
             nome,
             email,
             login,
-            PasswordEncoderProvider.encode(senha),
+            senha,
             LocalDate.now()
         );
     }
