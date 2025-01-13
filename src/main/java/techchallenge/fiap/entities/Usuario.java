@@ -57,6 +57,7 @@ public class Usuario {
         this.email = usuarioUpdate.getEmail();
         this.login = usuarioUpdate.getLogin();
         this.ultimaAlteracao = LocalDate.now();
+        endereco.atualizar(usuarioUpdate.getDados().endereco());
     }
 
     public void atualizarSenhaSeSenhaAtualEstiverCorreta(UsuarioTrocaDeSenhaDTO trocaDeSenhaDTO) {

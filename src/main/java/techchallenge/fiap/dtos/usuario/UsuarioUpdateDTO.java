@@ -1,9 +1,14 @@
 package techchallenge.fiap.dtos.usuario;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import techchallenge.fiap.dtos.endereco.EnderecoUpdateDTO;
 
 public class UsuarioUpdateDTO {
 
+    @NotNull
+    @Valid
     private DadosAtualizacao dados;
 
     @NotBlank
@@ -37,9 +42,10 @@ public class UsuarioUpdateDTO {
         return dados.login();
     }
 
-    private record DadosAtualizacao(
+    public record DadosAtualizacao(
         @NotBlank String nome,
         @NotBlank String email,
-        @NotBlank String login
+        @NotBlank String login,
+        @NotNull @Valid EnderecoUpdateDTO endereco
     ) {}
 }

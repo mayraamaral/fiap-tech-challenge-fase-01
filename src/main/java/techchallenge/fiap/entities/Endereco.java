@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import techchallenge.fiap.dtos.endereco.EnderecoUpdateDTO;
 
 import java.util.Optional;
 
@@ -64,6 +65,17 @@ public class Endereco {
         this.estado = estado;
         this.pais = pais;
         this.cep = cep;
+    }
+
+    public void atualizar(EnderecoUpdateDTO updateDTO) {
+        this.rua = updateDTO.getRua();
+        this.numero = updateDTO.getNumero();
+        this.complemento = updateDTO.getComplemento().orElse(null);
+        this.bairro = updateDTO.getBairro().orElse(null);
+        this.cidade = updateDTO.getCidade().orElse(null);
+        this.estado = updateDTO.getEstado();
+        this.pais = updateDTO.getPais();
+        this.cep = updateDTO.getCep();
     }
 
     public Long getId() {
