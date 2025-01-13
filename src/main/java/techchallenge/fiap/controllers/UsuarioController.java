@@ -15,7 +15,6 @@ import techchallenge.fiap.repositories.UsuarioRepository;
 import techchallenge.fiap.utils.exceptions.DadosIncorretosException;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -80,4 +79,5 @@ public class UsuarioController implements IUsuarioController {
         );
 
     }
+
 }
