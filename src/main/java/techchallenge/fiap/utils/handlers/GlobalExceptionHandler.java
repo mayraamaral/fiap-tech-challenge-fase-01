@@ -7,7 +7,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import techchallenge.fiap.utils.exceptions.DadosIncorretosException;
+import techchallenge.fiap.utils.exceptions.DadosIncorretosLoginException;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -36,16 +36,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DadosIncorretosException.class)
-    public ResponseEntity<ErrorResponseDTO> handleInvalidDataException(DadosIncorretosException ex, HttpServletRequest request) {
+    @ExceptionHandler(DadosIncorretosLoginException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidDataLoginException(DadosIncorretosLoginException ex, HttpServletRequest request) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(
             LocalDateTime.now().toString(),
-            HttpStatus.BAD_REQUEST.value(),
-            HttpStatus.BAD_REQUEST.getReasonPhrase(),
+            HttpStatus.UNAUTHORIZED.value(),
+            HttpStatus.UNAUTHORIZED.getReasonPhrase(),
             ex.getMessage(),
             request.getRequestURI());
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     public record ErrorResponseWithErrorsMapDTO(String timestamp, int status, String error, String message, String path, Map<String, String> errors) {}
