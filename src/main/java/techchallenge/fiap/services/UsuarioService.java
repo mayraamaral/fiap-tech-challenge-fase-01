@@ -1,16 +1,12 @@
 package techchallenge.fiap.services;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import techchallenge.fiap.dtos.usuario.*;
 import techchallenge.fiap.repositories.UsuarioRepository;
 import techchallenge.fiap.utils.exceptions.DadosIncorretosLoginException;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UsuarioService {

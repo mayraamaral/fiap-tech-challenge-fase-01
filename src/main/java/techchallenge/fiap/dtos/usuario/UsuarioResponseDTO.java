@@ -2,7 +2,6 @@ package techchallenge.fiap.dtos.usuario;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import techchallenge.fiap.dtos.endereco.EnderecoResponseDTO;
-import techchallenge.fiap.entities.Endereco;
 import techchallenge.fiap.entities.Usuario;
 
 import java.time.LocalDate;

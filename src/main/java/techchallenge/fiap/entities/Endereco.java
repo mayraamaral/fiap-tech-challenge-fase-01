@@ -44,7 +44,6 @@ public class Endereco {
      * @param cep código postal do endereço
      */
     public Endereco(String rua, String numero, String complemento, String bairro, String cidade, String estado, String pais, String cep) {
-        this.id = id;
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
